@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TikTok Downloader - Tanpa Watermark</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    body { font-family: 'Inter', sans-serif; }
+    .gradient-bg {
+      background: linear-gradient(135deg, #0f0f0f 0%, #1a1a2e 50%, #16213e 100%);
+    }
+    .tiktok-gradient {
+      background: linear-gradient(90deg, #ff0050, #00f2ea);
+    }
+    .card-glow {
+      box-shadow: 0 0 40px rgba(255, 0, 80, 0.15);
+    }
+    .btn-download {
+      transition: all 0.3s ease;
+    }
+    .btn-download:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(255, 0, 80, 0.4);
+    }
+    .loader {
+      border: 3px solid #333;
+      border-top: 3px solid #ff0050;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    .fade-in {
+      animation: fadeIn 0.4s ease-in;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body class="gradient-bg min-h-screen text-white">
+  <div class="container mx-auto px-4 py-8 max-w-2xl">
+    <!-- Header -->
+    <div class="text-center mb-10">
+      <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl tiktok-gradient mb-4">
+        <i class="fab fa-tiktok text-3xl text-white"></i>
+      </div>
+      <h1 class="text-3xl md:text-4xl font-bold mb-2">TikTok Downloader</h1>
+      <p class="text-gray-400 text-sm md:text-base">Download video TikTok tanpa watermark • HD • Gratis</p>
+    </div>
+
+    <!-- Input Card -->
+    <div class="bg-gray-900/80 backdrop-blur rounded-2xl p-6 card-glow border border-gray-800 mb-6">
+      <label class="block text-sm font-medium text-gray-300 mb-2">
+        <i class="fas fa-link mr-2 text-pink-500"></i>Link Video TikTok
+      </label>
+      <div class="flex flex-col sm:flex-row gap-3">
+        <input
+          type="text"
+          id="urlInput"
+          placeholder="Tempel link TikTok di sini..."
+          class="flex-1 bg-gray-800 border border-gray-700 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition"
+          autocomplete="off"
+        />
+        <button
+          id="downloadBtn"
+          onclick="fetchVideo()"
+          class="tiktok-gradient text-white font-semibold px-6 py-3 rounded-xl btn-download flex items-center justify-center gap-2 whitespace-nowrap"
+        >
+          <i class="fas fa-download"></i>
+          <span>Download</span>
+        </button>
+      </div>
+      <p class="text-xs text-gray-500 mt-3">
+        Contoh: https://www.tiktok.com/@username/video/1234567890 atau https://vt.tiktok.com/xxxxx
+      </p>
+    </div>
+
+    <!-- Loading -->
+    <div id="loading" class="hidden text-center py-10">
+      <div class="loader mx-auto mb-4"></div>
+      <p class="text-gray-400">Sedang memproses video...</p>
+    </div>
+
+    <!-- Error -->
+    <div id="error" class="hidden bg-red-900/40 border border-red-700 rounded-xl p-4 mb-6 fade-in">
+      <div class="flex items-start gap-3">
+        <i class="fas fa-exclamation-circle text-red-400 mt-0.5"></i>
+        <div>
+          <p class="font-medium text-red-300">Gagal mengambil video</p>
+          <p id="errorMsg" class="text-sm text-red-400 mt-1"></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Result -->
+    <div id="result" class="hidden fade-in">
+      <div class="bg-gray-900/80 backdrop-blur rounded-2xl overflow-hidden border border-gray-800 card-glow">
+        <!-- Cover + Info -->
+        <div class="relative">
+          <img id="coverImg" src="" alt="Cover" class="w-full h-48 object-cover opacity-60" />
+          <div class="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent"></div>
+          <div class="absolute bottom-4 left-4 right-4">
+            <h2 id="videoTitle" class="font-semibold text-lg line-clamp-2"></h2>
+            <div class="flex items-center gap-2 mt-1 text-sm text-gray-300">
+              <img id="authorAvatar" src="" class="w-6 h-6 rounded-full" alt="" />
+              <span id="authorName"></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="p-5 space-y-4">
+          <!-- Stats -->
+          <div class="flex flex-wrap gap-4 text-sm text-gray-400">
+            <span><i class="fas fa-clock mr-1"></i><span id="duration"></span></span>
+            <span><i class="fas fa-heart mr-1 text-pink-500"></i><span id="likes"></span></span>
+            <span><i class="fas fa-comment mr-1 text-blue-400"></i><span id="comments"></span></span>
+            <span><i class="fas fa-eye mr-1"></i><span id="views"></span></span>
+          </div>
+
+          <!-- Download Buttons -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <a id="btnNoWatermark" href="#" target="_blank" download
+               class="flex items-center justify-center gap-2 bg-gradient-to-r from-pink-600 to-rose-600 hover:from-pink-500 hover:to-rose-500 text-white font-semibold py-3 px-4 rounded-xl transition btn-download">
+              <i class="fas fa-video"></i>
+              Video Tanpa Watermark
+            </a>
+            <a id="btnHD" href="#" target="_blank" download
+               class="hidden flex items-center justify-center gap-2 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-semibold py-3 px-4 rounded-xl transition btn-download">
+              <i class="fas fa-hd-video"></i>
+              Video HD
+            </a>
+            <a id="btnMusic" href="#" target="_blank" download
+               class="flex items-center justify-center gap-2 bg-gray-700 hover:bg-gray-600 text-white font-semibold py-3 px-4 rounded-xl transition">
+              <i class="fas fa-music"></i>
+              Download Audio (MP3)
+            </a>
+            <a id="btnCover" href="#" target="_blank" download
+               class="flex items-center justify-center gap-2 bg-gray-700 hover:bg-gray-600 text-white font-semibold py-3 px-4 rounded-xl transition">
+              <i class="fas fa-image"></i>
+              Download Cover
+            </a>
+          </div>
+
+          <!-- Direct Link -->
+          <div class="pt-2">
+            <p class="text-xs text-gray-500 mb-1">Link langsung (bisa dicopy):</p>
+            <div class="flex gap-2">
+              <input id="directLink" type="text" readonly
+                     class="flex-1 bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-xs text-gray-300" />
+              <button onclick="copyLink()" class="bg-gray-700 hover:bg-gray-600 px-3 rounded-lg text-sm">
+                <i class="fas fa-copy"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="text-center mt-10 text-gray-500 text-xs space-y-1">
+      <p>Hanya untuk penggunaan pribadi. Hormati hak cipta kreator.</p>
+      <p>Tidak berafiliasi dengan TikTok / ByteDance.</p>
+    </div>
+  </div>
+
+  <script>
+    const API = 'https://www.tikwm.com/api/';
+
+    function formatNumber(num) {
+      if (!num) return '0';
+      if (num >= 1e6) return (num / 1e6).toFixed(1) + 'M';
+      if (num >= 1e3) return (num / 1e3).toFixed(1) + 'K';
+      return num.toString();
+    }
+
+    function formatDuration(seconds) {
+      if (!seconds) return '0:00';
+      const m = Math.floor(seconds / 60);
+      const s = seconds % 60;
+      return `${m}:${s.toString().padStart(2, '0')}`;
+    }
+
+    function showLoading(show) {
+      document.getElementById('loading').classList.toggle('hidden', !show);
+      document.getElementById('result').classList.add('hidden');
+      document.getElementById('error').classList.add('hidden');
+      document.getElementById('downloadBtn').disabled = show;
+    }
+
+    function showError(msg) {
+      document.getElementById('error').classList.remove('hidden');
+      document.getElementById('errorMsg').textContent = msg;
+      document.getElementById('loading').classList.add('hidden');
+    }
+
+    async function fetchVideo() {
+      let url = document.getElementById('urlInput').value.trim();
+      if (!url) {
+        showError('Masukkan link TikTok terlebih dahulu.');
+        return;
+      }
+
+      // Basic validation
+      if (!url.includes('tiktok.com') && !url.includes('vt.tiktok') && !url.includes('vm.tiktok')) {
+        showError('Link tidak valid. Pastikan ini adalah link TikTok.');
+        return;
+      }
+
+      showLoading(true);
+
+      try {
+        const res = await fetch(`${API}?url=${encodeURIComponent(url)}&hd=1`);
+        const json = await res.json();
+
+        if (json.code !== 0 || !json.data) {
+          throw new Error(json.msg || 'Video tidak ditemukan atau privat.');
+        }
+
+        const data = json.data;
+
+        // Fill UI
+        document.getElementById('coverImg').src = data.cover || data.origin_cover || '';
+        document.getElementById('videoTitle').textContent = data.title || 'Tanpa judul';
+        document.getElementById('authorAvatar').src = data.author?.avatar || '';
+        document.getElementById('authorName').textContent = '@' + (data.author?.unique_id || data.author?.nickname || 'unknown');
+        document.getElementById('duration').textContent = formatDuration(data.duration);
+        document.getElementById('likes').textContent = formatNumber(data.digg_count);
+        document.getElementById('comments').textContent = formatNumber(data.comment_count);
+        document.getElementById('views').textContent = formatNumber(data.play_count);
+
+        // Download links
+        const noWm = data.play || data.hdplay || '';
+        const hd = data.hdplay || '';
+        const music = data.music || '';
+        const cover = data.cover || data.origin_cover || '';
+
+        const btnNoWm = document.getElementById('btnNoWatermark');
+        btnNoWm.href = noWm;
+        btnNoWm.download = `tiktok_${data.id || 'video'}.mp4`;
+
+        const btnHD = document.getElementById('btnHD');
+        if (hd && hd !== noWm) {
+          btnHD.href = hd;
+          btnHD.download = `tiktok_${data.id || 'video'}_hd.mp4`;
+          btnHD.classList.remove('hidden');
+        } else {
+          btnHD.classList.add('hidden');
+        }
+
+        document.getElementById('btnMusic').href = music;
+        document.getElementById('btnCover').href = cover;
+        document.getElementById('directLink').value = noWm;
+
+        document.getElementById('result').classList.remove('hidden');
+        document.getElementById('loading').classList.add('hidden');
+      } catch (err) {
+        showError(err.message || 'Terjadi kesalahan. Coba lagi nanti.');
+      } finally {
+        document.getElementById('downloadBtn').disabled = false;
+      }
+    }
+
+    function copyLink() {
+      const input = document.getElementById('directLink');
+      input.select();
+      navigator.clipboard.writeText(input.value).then(() => {
+        const btn = event.currentTarget;
+        btn.innerHTML = '<i class="fas fa-check text-green-400"></i>';
+        setTimeout(() => btn.innerHTML = '<i class="fas fa-copy"></i>', 1500);
+      });
+    }
+
+    // Enter key support
+    document.getElementById('urlInput').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') fetchVideo();
+    });
+
+    // Auto paste from clipboard on focus (optional)
+    document.getElementById('urlInput').addEventListener('focus', async () => {
+      try {
+        const text = await navigator.clipboard.readText();
+        if (text && (text.includes('tiktok.com') || text.includes('vt.tiktok') || text.includes('vm.tiktok'))) {
+          if (!document.getElementById('urlInput').value) {
+            document.getElementById('urlInput').value = text;
+          }
+        }
+      } catch (_) {}
+    });
+  </script>
+</body>
+</html>
