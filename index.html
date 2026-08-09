@@ -3,8 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Raps13 — Project Collection</title>
+  <title>Project Raps13</title>
 
   <style>
     * {
@@ -17,9 +16,9 @@
 
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
-      background: #08090d;
-      color: #f5f7fb;
+      font-family: Inter, Arial, sans-serif;
+      background: #07080c;
+      color: #fff;
     }
 
     a {
@@ -27,21 +26,19 @@
       color: inherit;
     }
 
-    /* NAVBAR */
-    .nav {
+    .navbar {
       position: sticky;
       top: 0;
-      z-index: 10;
-      background: rgba(8, 9, 13, 0.85);
-      backdrop-filter: blur(15px);
-      border-bottom: 1px solid #222631;
+      z-index: 100;
+      background: rgba(7, 8, 12, .72);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(255,255,255,.06);
     }
 
-    .nav-container {
+    .nav-content {
       max-width: 1100px;
       margin: auto;
-      padding: 16px 22px;
-
+      padding: 17px 22px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -49,210 +46,285 @@
 
     .logo {
       font-size: 21px;
-      font-weight: bold;
+      font-weight: 800;
     }
 
     .logo span {
-      color: #7c8cff;
+      color: #8b94ff;
     }
 
-    .nav a {
-      color: #aeb4c2;
-      margin-left: 20px;
+    .nav-links {
+      display: flex;
+      gap: 25px;
+    }
+
+    .nav-links a {
+      color: #9da3b1;
       font-size: 14px;
+      transition: .25s;
     }
 
-    .nav a:hover {
-      color: white;
+    .nav-links a:hover {
+      color: #fff;
     }
 
-    /* HERO */
     .hero {
       max-width: 1100px;
       margin: auto;
-      padding: 90px 22px 70px;
+      padding: 105px 22px 80px;
     }
 
     .badge {
       display: inline-block;
       padding: 7px 12px;
-      border: 1px solid #303543;
       border-radius: 50px;
-
-      color: #aeb8ff;
-      background: #111421;
-
-      font-size: 13px;
+      background: rgba(124,135,255,.08);
+      border: 1px solid rgba(124,135,255,.2);
+      color: #aab2ff;
+      font-size: 12px;
+      animation: fadeUp .7s ease;
     }
 
     h1 {
-      font-size: clamp(45px, 8vw, 82px);
-      line-height: 1;
       margin: 22px 0 18px;
-      letter-spacing: -3px;
+      font-size: clamp(46px,8vw,82px);
+      line-height: .98;
+      letter-spacing: -4px;
+      animation: fadeUp .8s ease;
     }
 
     .gradient {
-      background: linear-gradient(90deg, white, #9da8ff);
+      background: linear-gradient(90deg,#fff,#9ca6ff,#fff);
+      background-size: 200% auto;
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
+      animation: gradientMove 4s linear infinite;
     }
 
     .hero p {
       max-width: 650px;
-      color: #9ca3b1;
-      font-size: 18px;
-      line-height: 1.6;
+      color: #969dab;
+      font-size: 17px;
+      line-height: 1.7;
+      animation: fadeUp .9s ease;
     }
 
-    .buttons {
+    .hero-buttons {
       display: flex;
       gap: 12px;
-      margin-top: 28px;
+      margin-top: 30px;
+      animation: fadeUp 1s ease;
     }
 
     .button {
       padding: 12px 18px;
-      border-radius: 11px;
-
-      border: 1px solid #303543;
-      background: white;
+      border-radius: 12px;
+      background: #fff;
       color: #08090d;
+      font-size: 14px;
+      font-weight: 700;
+      transition: .25s;
+    }
 
-      font-weight: bold;
+    .button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 30px rgba(255,255,255,.12);
     }
 
     .button.dark {
-      background: #12151d;
-      color: white;
+      background: #12141b;
+      color: #fff;
+      border: 1px solid #292d38;
     }
 
-    /* PROJECT */
     section {
       max-width: 1100px;
       margin: auto;
-      padding: 35px 22px 80px;
+      padding: 35px 22px 85px;
     }
 
-    .section-title {
-      margin-bottom: 22px;
+    .section-header {
+      margin-bottom: 25px;
     }
 
-    .section-title h2 {
+    .section-header h2 {
       margin: 0;
       font-size: 30px;
     }
 
-    .section-title p {
-      color: #858c9a;
+    .section-header p {
+      color: #777e8d;
+      margin-top: 7px;
     }
 
     .projects {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
+      grid-template-columns: repeat(3,1fr);
+      gap: 17px;
     }
 
     .project {
-      min-height: 230px;
-
-      padding: 20px;
-      border-radius: 17px;
-
-      background: #101218;
-      border: 1px solid #222631;
-
+      position: relative;
+      min-height: 240px;
+      padding: 22px;
+      border-radius: 18px;
+      background: linear-gradient(
+        145deg,
+        rgba(255,255,255,.045),
+        rgba(255,255,255,.015)
+      );
+      border: 1px solid rgba(255,255,255,.08);
+      overflow: hidden;
       display: flex;
       flex-direction: column;
+      transition:
+        transform .35s cubic-bezier(.2,.8,.2,1),
+        border-color .35s,
+        box-shadow .35s;
+    }
 
-      transition: 0.2s;
+    .project::before {
+      content: "";
+      position: absolute;
+      width: 180px;
+      height: 180px;
+      top: -100px;
+      right: -100px;
+      background: #7884ff;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0;
+      transition: .4s;
     }
 
     .project:hover {
-      transform: translateY(-5px);
-      border-color: #464c60;
+      transform: translateY(-8px);
+      border-color: rgba(130,140,255,.4);
+      box-shadow:
+        0 20px 50px rgba(0,0,0,.35),
+        0 0 35px rgba(100,110,255,.08);
     }
 
-    .number {
-      color: #7883ff;
-      font-size: 13px;
-      font-weight: bold;
+    .project:hover::before {
+      opacity: .15;
+    }
+
+    .project:active {
+      transform: scale(.97);
+    }
+
+    .project-number {
+      color: #7e88ff;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 1px;
     }
 
     .project h3 {
+      margin: 12px 0 8px;
       font-size: 22px;
-      margin: 10px 0 8px;
     }
 
     .project p {
-      color: #949baa;
+      margin: 0;
+      color: #858c99;
       font-size: 14px;
+      line-height: 1.6;
     }
 
     .tags {
       display: flex;
       gap: 7px;
       margin-top: auto;
-      margin-bottom: 17px;
+      margin-bottom: 18px;
     }
 
     .tag {
-      padding: 5px 8px;
+      padding: 5px 9px;
       border-radius: 7px;
-
       background: #191c25;
-      color: #b8bfcc;
-
+      color: #aeb5c2;
       font-size: 11px;
     }
 
     .open {
-      color: #b8c0ff;
+      color: #aeb6ff;
       font-size: 13px;
-      font-weight: bold;
+      font-weight: 700;
+      transition: .25s;
     }
 
-    /* ABOUT */
-    .about {
-      padding: 26px;
-      border-radius: 18px;
+    .project:hover .open {
+      transform: translateX(5px);
+    }
 
-      background: #0e1016;
-      border: 1px solid #222631;
+    .about {
+      padding: 28px;
+      border-radius: 19px;
+      background: #0d0f15;
+      border: 1px solid rgba(255,255,255,.07);
+    }
+
+    .about h2 {
+      margin-top: 0;
     }
 
     .about p {
-      color: #858c9a;
+      color: #858c99;
+      line-height: 1.7;
     }
 
-    /* FOOTER */
     footer {
-      border-top: 1px solid #20232d;
-      padding: 28px 20px;
-
+      border-top: 1px solid rgba(255,255,255,.06);
+      padding: 30px;
       text-align: center;
-      color: #747b88;
+      color: #666d7a;
       font-size: 13px;
     }
 
-    /* RESPONSIVE */
-    @media (max-width: 800px) {
-      .projects {
-        grid-template-columns: repeat(2, 1fr);
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
       }
     }
 
-    @media (max-width: 520px) {
+    @keyframes gradientMove {
+      0% {
+        background-position: 0% center;
+      }
+
+      100% {
+        background-position: 200% center;
+      }
+    }
+
+    @media (max-width:800px) {
+      .projects {
+        grid-template-columns: repeat(2,1fr);
+      }
+    }
+
+    @media (max-width:550px) {
       .projects {
         grid-template-columns: 1fr;
       }
 
       .hero {
-        padding-top: 60px;
+        padding-top: 70px;
       }
 
-      .nav-container {
+      h1 {
+        letter-spacing: -2px;
+      }
+
+      .nav-content {
         padding: 14px 16px;
       }
     }
@@ -261,15 +333,14 @@
 
 <body>
 
-  <!-- NAVBAR -->
-  <nav class="nav">
-    <div class="nav-container">
+  <nav class="navbar">
+    <div class="nav-content">
 
       <a href="#" class="logo">
         Raps<span>13</span>
       </a>
 
-      <div>
+      <div class="nav-links">
         <a href="#projects">Projects</a>
         <a href="#about">About</a>
       </div>
@@ -277,8 +348,6 @@
     </div>
   </nav>
 
-
-  <!-- HERO -->
   <header class="hero">
 
     <span class="badge">
@@ -287,17 +356,18 @@
 
     <h1>
       Kumpulan
-      <span class="gradient">Project</span><br>
+      <span class="gradient">Project</span>
+      <br>
       Raps13.
     </h1>
 
     <p>
-      Satu tempat untuk menyimpan dan menampilkan
-      semua project yang dibuat oleh Raps13.
+      Satu tempat untuk menyimpan,
+      menampilkan, dan mengakses semua
+      project Raps13.
     </p>
 
-    <div class="buttons">
-
+    <div class="hero-buttons">
       <a href="#projects" class="button">
         Lihat Project
       </a>
@@ -305,209 +375,114 @@
       <a href="#about" class="button dark">
         Tentang
       </a>
-
     </div>
 
   </header>
 
-
-  <!-- PROJECTS -->
   <section id="projects">
 
-    <div class="section-title">
+    <div class="section-header">
       <h2>Projects</h2>
-      <p>Daftar project Raps13</p>
+      <p>Semua project Raps13</p>
     </div>
-
 
     <div class="projects">
 
-      <!-- PROJECT 1 -->
       <a href="projects/project-1/index.html" class="project">
-
-        <div class="number">
-          PROJECT 01
-        </div>
-
-        <h3>
-          Project 1
-        </h3>
-
-        <p>
-          Project pertama Raps13.
-        </p>
+        <div class="project-number">PROJECT 01</div>
+        <h3>Project 1</h3>
+        <p>Project pertama Raps13.</p>
 
         <div class="tags">
           <span class="tag">HTML</span>
           <span class="tag">Web</span>
         </div>
 
-        <div class="open">
-          Buka Project →
-        </div>
-
+        <div class="open">Buka Project →</div>
       </a>
 
-
-      <!-- PROJECT 2 -->
       <a href="projects/project-2/index.html" class="project">
-
-        <div class="number">
-          PROJECT 02
-        </div>
-
-        <h3>
-          Project 2
-        </h3>
-
-        <p>
-          Project kedua Raps13.
-        </p>
+        <div class="project-number">PROJECT 02</div>
+        <h3>Project 2</h3>
+        <p>Project kedua Raps13.</p>
 
         <div class="tags">
           <span class="tag">HTML</span>
           <span class="tag">Web</span>
         </div>
 
-        <div class="open">
-          Buka Project →
-        </div>
-
+        <div class="open">Buka Project →</div>
       </a>
 
-
-      <!-- PROJECT 3 -->
       <a href="projects/project-3/index.html" class="project">
-
-        <div class="number">
-          PROJECT 03
-        </div>
-
-        <h3>
-          Project 3
-        </h3>
-
-        <p>
-          Project ketiga Raps13.
-        </p>
+        <div class="project-number">PROJECT 03</div>
+        <h3>Project 3</h3>
+        <p>Project ketiga Raps13.</p>
 
         <div class="tags">
           <span class="tag">HTML</span>
           <span class="tag">Web</span>
         </div>
 
-        <div class="open">
-          Buka Project →
-        </div>
-
+        <div class="open">Buka Project →</div>
       </a>
 
-
-      <!-- PROJECT 4 -->
       <a href="projects/project-4/index.html" class="project">
-
-        <div class="number">
-          PROJECT 04
-        </div>
-
-        <h3>
-          Project 4
-        </h3>
-
-        <p>
-          Project keempat Raps13.
-        </p>
+        <div class="project-number">PROJECT 04</div>
+        <h3>Project 4</h3>
+        <p>Project keempat Raps13.</p>
 
         <div class="tags">
           <span class="tag">HTML</span>
           <span class="tag">Web</span>
         </div>
 
-        <div class="open">
-          Buka Project →
-        </div>
-
+        <div class="open">Buka Project →</div>
       </a>
 
-
-      <!-- PROJECT 5 -->
       <a href="projects/project-5/index.html" class="project">
-
-        <div class="number">
-          PROJECT 05
-        </div>
-
-        <h3>
-          Project 5
-        </h3>
-
-        <p>
-          Project kelima Raps13.
-        </p>
+        <div class="project-number">PROJECT 05</div>
+        <h3>Project 5</h3>
+        <p>Project kelima Raps13.</p>
 
         <div class="tags">
           <span class="tag">HTML</span>
           <span class="tag">Web</span>
         </div>
 
-        <div class="open">
-          Buka Project →
-        </div>
-
+        <div class="open">Buka Project →</div>
       </a>
 
-
-      <!-- PROJECT 6 -->
       <a href="projects/project-6/index.html" class="project">
-
-        <div class="number">
-          PROJECT 06
-        </div>
-
-        <h3>
-          Project 6
-        </h3>
-
-        <p>
-          Project keenam Raps13.
-        </p>
+        <div class="project-number">PROJECT 06</div>
+        <h3>Project 6</h3>
+        <p>Project keenam Raps13.</p>
 
         <div class="tags">
           <span class="tag">HTML</span>
           <span class="tag">Web</span>
         </div>
 
-        <div class="open">
-          Buka Project →
-        </div>
-
+        <div class="open">Buka Project →</div>
       </a>
 
     </div>
-
   </section>
 
-
-  <!-- ABOUT -->
   <section id="about">
 
     <div class="about">
-
-      <h2>
-        About Raps13
-      </h2>
+      <h2>About Raps13</h2>
 
       <p>
-        Website ini dibuat sebagai halaman utama
-        untuk mengumpulkan berbagai project Raps13.
+        Website ini merupakan halaman utama
+        untuk mengumpulkan berbagai project
+        yang dibuat oleh Raps13.
       </p>
-
     </div>
 
   </section>
 
-
-  <!-- FOOTER -->
   <footer>
     © 2026 Raps13 · Project Collection
   </footer>
