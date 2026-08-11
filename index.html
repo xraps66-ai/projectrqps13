@@ -3,111 +3,1046 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#08090d">
 <title>Project Raps13</title>
 
 <style>
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0;font-family:Inter,Arial,sans-serif;background:#07080c;color:#fff}
-a{text-decoration:none;color:inherit;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none}
-.navbar{position:sticky;top:0;z-index:100;background:rgba(7,8,12,.72);backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.06)}
-.nav-content{max-width:1100px;margin:auto;padding:17px 22px;display:flex;justify-content:space-between;align-items:center}
-.logo{font-size:21px;font-weight:800}.logo span{color:#8b94ff}
-.nav-links{display:flex;gap:25px}.nav-links a{color:#9da3b1;font-size:14px;transition:.25s}.nav-links a:hover{color:#fff}
-.hero{max-width:1100px;margin:auto;padding:105px 22px 80px}
-.badge{display:inline-block;padding:7px 12px;border-radius:50px;background:rgba(124,135,255,.08);border:1px solid rgba(124,135,255,.2);color:#aab2ff;font-size:12px;animation:fadeUp .7s ease}
-h1{margin:22px 0 18px;font-size:clamp(46px,8vw,82px);line-height:.98;letter-spacing:-4px;animation:fadeUp .8s ease}
-.gradient{background:linear-gradient(90deg,#fff,#9ca6ff,#fff);background-size:200% auto;-webkit-background-clip:text;background-clip:text;color:transparent;animation:gradientMove 4s linear infinite}
-.hero p{max-width:650px;color:#969dab;font-size:17px;line-height:1.7;animation:fadeUp .9s ease}
-.hero-buttons{display:flex;gap:12px;margin-top:30px;animation:fadeUp 1s ease}
-.button{padding:12px 18px;border-radius:12px;background:#fff;color:#08090d;font-size:14px;font-weight:700;transition:.25s}
-.button:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(255,255,255,.12)}
-.button.dark{background:#12141b;color:#fff;border:1px solid #292d38}
-section{max-width:1100px;margin:auto;padding:35px 22px 85px}
-.section-header{margin-bottom:25px}.section-header h2{margin:0;font-size:30px}.section-header p{color:#777e8d;margin-top:7px}
-.projects{display:grid;grid-template-columns:repeat(3,1fr);gap:17px}
-.project{position:relative;min-height:240px;padding:22px;border-radius:18px;background:linear-gradient(145deg,rgba(255,255,255,.045),rgba(255,255,255,.015));border:1px solid rgba(255,255,255,.08);overflow:hidden;display:flex;flex-direction:column;transition:transform .35s cubic-bezier(.2,.8,.2,1),border-color .35s,box-shadow .35s;animation:cardUp .7s ease both}
-.project::before{content:"";position:absolute;width:180px;height:180px;top:-100px;right:-100px;background:#7884ff;border-radius:50%;filter:blur(80px);opacity:0;transition:.4s}
-.project:hover{transform:translateY(-8px);border-color:rgba(130,140,255,.4);box-shadow:0 20px 50px rgba(0,0,0,.35),0 0 35px rgba(100,110,255,.08)}
-.project:hover::before{opacity:.15}
-.project:active{transform:none;background:linear-gradient(145deg,rgba(255,255,255,.045),rgba(255,255,255,.015))}
-.project:focus,.project:focus-visible{outline:none}
-.project-number{color:#7e88ff;font-size:12px;font-weight:800;letter-spacing:1px}
-.project h3{margin:12px 0 8px;font-size:22px}.project p{margin:0;color:#858c99;font-size:14px;line-height:1.6}
-.tags{display:flex;gap:7px;margin-top:auto;margin-bottom:18px}.tag{padding:5px 9px;border-radius:7px;background:#191c25;color:#aeb5c2;font-size:11px}
-.open{color:#aeb6ff;font-size:13px;font-weight:700;transition:.25s}.project:hover .open{transform:translateX(5px)}
-.about{padding:28px;border-radius:19px;background:#0d0f15;border:1px solid rgba(255,255,255,.07)}.about h2{margin-top:0}.about p{color:#858c99;line-height:1.7}
-footer{border-top:1px solid rgba(255,255,255,.06);padding:30px;text-align:center;color:#666d7a;font-size:13px}
-@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-@keyframes cardUp{from{opacity:0;transform:translateY(25px)}to{opacity:1;transform:translateY(0)}}
-@keyframes gradientMove{0%{background-position:0% center}100%{background-position:200% center}}
-@media(max-width:800px){.projects{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:550px){.projects{grid-template-columns:1fr}.hero{padding-top:70px}h1{letter-spacing:-2px}.nav-content{padding:14px 16px}}
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    min-height:100vh;
+    font-family:Inter,Arial,sans-serif;
+    color:#fff;
+    background:#07080c;
+    overflow-x:hidden;
+}
+
+/* =========================
+   AURORA BACKGROUND
+========================= */
+
+body::before,
+body::after{
+    content:"";
+    position:fixed;
+    width:500px;
+    height:500px;
+    border-radius:50%;
+    pointer-events:none;
+    filter:blur(100px);
+    z-index:-2;
+    opacity:.16;
+}
+
+body::before{
+    top:-180px;
+    left:-150px;
+    background:#5664ff;
+    animation:auroraOne 10s ease-in-out infinite alternate;
+}
+
+body::after{
+    right:-180px;
+    bottom:-200px;
+    background:#914dff;
+    animation:auroraTwo 12s ease-in-out infinite alternate;
+}
+
+@keyframes auroraOne{
+    from{transform:translate(0,0) scale(1)}
+    to{transform:translate(180px,130px) scale(1.3)}
+}
+
+@keyframes auroraTwo{
+    from{transform:translate(0,0) scale(1)}
+    to{transform:translate(-160px,-100px) scale(1.25)}
+}
+
+body{
+    background:
+        radial-gradient(circle at 50% 0%,rgba(90,100,255,.08),transparent 35%),
+        #07080c;
+}
+
+a{
+    color:inherit;
+    text-decoration:none;
+    -webkit-tap-highlight-color:transparent;
+}
+
+/* =========================
+   CURSOR GLOW
+========================= */
+
+.cursor-glow{
+    position:fixed;
+    width:320px;
+    height:320px;
+    border-radius:50%;
+    pointer-events:none;
+    z-index:-1;
+    background:radial-gradient(
+        circle,
+        rgba(120,135,255,.10),
+        transparent 68%
+    );
+    transform:translate(-50%,-50%);
+    transition:opacity .3s;
+}
+
+/* =========================
+   NAVBAR
+========================= */
+
+.navbar{
+    position:sticky;
+    top:12px;
+    z-index:100;
+    max-width:1120px;
+    margin:12px auto 0;
+    padding:0 12px;
+}
+
+.nav-content{
+    height:62px;
+    padding:0 20px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    background:rgba(18,20,29,.55);
+    border:1px solid rgba(255,255,255,.10);
+    border-radius:20px;
+
+    backdrop-filter:blur(25px) saturate(180%);
+    -webkit-backdrop-filter:blur(25px) saturate(180%);
+
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.10),
+        0 15px 45px rgba(0,0,0,.20);
+}
+
+.logo{
+    font-size:21px;
+    font-weight:800;
+    letter-spacing:-.5px;
+}
+
+.logo span{
+    color:#8b94ff;
+    text-shadow:0 0 25px rgba(130,140,255,.45);
+}
+
+.nav-links{
+    display:flex;
+    gap:8px;
+}
+
+.nav-links a{
+    padding:9px 13px;
+    border-radius:11px;
+    color:#9da3b1;
+    font-size:14px;
+    transition:.3s;
+}
+
+.nav-links a:hover{
+    color:#fff;
+    background:rgba(255,255,255,.07);
+}
+
+/* =========================
+   HERO
+========================= */
+
+.hero{
+    max-width:1100px;
+    margin:auto;
+    padding:120px 22px 100px;
+}
+
+.badge{
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+
+    padding:8px 13px;
+    border-radius:50px;
+
+    background:rgba(120,130,255,.08);
+    border:1px solid rgba(145,155,255,.20);
+
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+
+    color:#aab2ff;
+    font-size:12px;
+    font-weight:600;
+
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.10),
+        0 8px 30px rgba(60,70,180,.08);
+
+    animation:fadeUp .7s ease both;
+}
+
+.badge::before{
+    content:"";
+    width:6px;
+    height:6px;
+    border-radius:50%;
+    background:#8c97ff;
+    box-shadow:0 0 12px #7884ff;
+}
+
+h1{
+    margin:24px 0 20px;
+    max-width:900px;
+
+    font-size:clamp(48px,8vw,86px);
+    line-height:.96;
+    letter-spacing:-5px;
+
+    animation:fadeUp .8s ease both;
+}
+
+.gradient{
+    background:
+        linear-gradient(
+            100deg,
+            #fff 0%,
+            #9ca6ff 35%,
+            #fff 55%,
+            #a5adff 80%,
+            #fff 100%
+        );
+
+    background-size:250% auto;
+
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+
+    animation:gradientMove 5s linear infinite;
+}
+
+.hero p{
+    max-width:650px;
+    color:#969dab;
+    font-size:17px;
+    line-height:1.7;
+    animation:fadeUp .9s ease both;
+}
+
+.hero-buttons{
+    display:flex;
+    gap:12px;
+    margin-top:32px;
+    animation:fadeUp 1s ease both;
+}
+
+.button{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+
+    padding:13px 19px;
+    border-radius:13px;
+
+    background:rgba(255,255,255,.90);
+    color:#08090d;
+
+    font-size:14px;
+    font-weight:700;
+
+    border:1px solid rgba(255,255,255,.4);
+
+    transition:
+        transform .3s cubic-bezier(.2,.8,.2,1),
+        box-shadow .3s,
+        background .3s;
+
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.9),
+        0 10px 35px rgba(0,0,0,.18);
+}
+
+.button:hover{
+    transform:translateY(-4px) scale(1.02);
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,1),
+        0 18px 40px rgba(255,255,255,.10);
+}
+
+.button.dark{
+    color:#fff;
+    background:rgba(20,23,32,.55);
+    border-color:rgba(255,255,255,.10);
+
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+}
+
+.button.dark:hover{
+    background:rgba(35,38,50,.65);
+}
+
+/* =========================
+   SECTIONS
+========================= */
+
+section{
+    max-width:1100px;
+    margin:auto;
+    padding:35px 22px 90px;
+}
+
+.section-header{
+    margin-bottom:26px;
+}
+
+.section-header h2{
+    font-size:30px;
+    letter-spacing:-1px;
+}
+
+.section-header p{
+    margin-top:7px;
+    color:#777e8d;
+}
+
+/* =========================
+   PROJECT GRID
+========================= */
+
+.projects{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:17px;
+}
+
+/* =========================
+   LIQUID GLASS CARD
+========================= */
+
+.project{
+    position:relative;
+    min-height:245px;
+    padding:23px;
+
+    display:flex;
+    flex-direction:column;
+
+    overflow:hidden;
+
+    border-radius:21px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.075),
+            rgba(255,255,255,.022)
+        );
+
+    border:1px solid rgba(255,255,255,.095);
+
+    backdrop-filter:
+        blur(24px)
+        saturate(170%);
+
+    -webkit-backdrop-filter:
+        blur(24px)
+        saturate(170%);
+
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.09),
+        inset 0 -1px 0 rgba(255,255,255,.025),
+        0 15px 45px rgba(0,0,0,.18);
+
+    transition:
+        transform .45s cubic-bezier(.2,.8,.2,1),
+        border-color .4s,
+        box-shadow .4s,
+        background .4s;
+
+    animation:cardUp .7s ease both;
+}
+
+/* Glass highlight */
+
+.project::after{
+    content:"";
+    position:absolute;
+    top:0;
+    left:8%;
+    right:8%;
+    height:1px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(255,255,255,.28),
+            transparent
+        );
+
+    pointer-events:none;
+}
+
+/* Liquid orb */
+
+.project::before{
+    content:"";
+    position:absolute;
+
+    width:220px;
+    height:220px;
+
+    top:-130px;
+    right:-100px;
+
+    border-radius:50%;
+
+    background:#7884ff;
+
+    filter:blur(80px);
+
+    opacity:.035;
+
+    transition:
+        transform .6s,
+        opacity .5s;
+
+    pointer-events:none;
+}
+
+.project:hover{
+    transform:translateY(-9px) scale(1.015);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.105),
+            rgba(255,255,255,.035)
+        );
+
+    border-color:rgba(140,150,255,.34);
+
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.13),
+        0 25px 65px rgba(0,0,0,.35),
+        0 0 45px rgba(100,110,255,.08);
+}
+
+.project:hover::before{
+    opacity:.16;
+    transform:scale(1.3);
+}
+
+.project:active{
+    transform:scale(.985);
+}
+
+.project:focus,
+.project:focus-visible{
+    outline:none;
+}
+
+/* =========================
+   CARD CONTENT
+========================= */
+
+.project-number{
+    color:#818bff;
+    font-size:11px;
+    font-weight:800;
+    letter-spacing:1.2px;
+    text-transform:uppercase;
+}
+
+.project h3{
+    margin:12px 0 8px;
+    font-size:22px;
+    letter-spacing:-.5px;
+}
+
+.project p{
+    margin:0;
+    color:#858c99;
+    font-size:14px;
+    line-height:1.6;
+}
+
+.tags{
+    display:flex;
+    gap:7px;
+    margin-top:auto;
+    margin-bottom:18px;
+}
+
+.tag{
+    padding:5px 9px;
+
+    border-radius:8px;
+
+    background:rgba(255,255,255,.045);
+    border:1px solid rgba(255,255,255,.065);
+
+    color:#aeb5c2;
+    font-size:11px;
+
+    backdrop-filter:blur(10px);
+    -webkit-backdrop-filter:blur(10px);
+}
+
+.open{
+    display:inline-block;
+
+    color:#aeb6ff;
+    font-size:13px;
+    font-weight:700;
+
+    transition:.35s;
+}
+
+.project:hover .open{
+    transform:translateX(6px);
+    text-shadow:0 0 18px rgba(150,160,255,.40);
+}
+
+/* =========================
+   ABOUT
+========================= */
+
+.about{
+    position:relative;
+    overflow:hidden;
+
+    padding:30px;
+
+    border-radius:21px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.065),
+            rgba(255,255,255,.022)
+        );
+
+    border:1px solid rgba(255,255,255,.085);
+
+    backdrop-filter:
+        blur(25px)
+        saturate(170%);
+
+    -webkit-backdrop-filter:
+        blur(25px)
+        saturate(170%);
+
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.08),
+        0 18px 50px rgba(0,0,0,.18);
+}
+
+.about::before{
+    content:"";
+    position:absolute;
+
+    width:250px;
+    height:250px;
+
+    right:-120px;
+    top:-150px;
+
+    background:#6674ff;
+    filter:blur(90px);
+    opacity:.06;
+
+    pointer-events:none;
+}
+
+.about h2{
+    position:relative;
+    margin-bottom:10px;
+}
+
+.about p{
+    position:relative;
+    color:#858c99;
+    line-height:1.7;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+footer{
+    border-top:1px solid rgba(255,255,255,.06);
+    padding:30px;
+    text-align:center;
+    color:#666d7a;
+    font-size:13px;
+}
+
+/* =========================
+   ANIMATIONS
+========================= */
+
+@keyframes fadeUp{
+    from{
+        opacity:0;
+        transform:translateY(22px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+@keyframes cardUp{
+    from{
+        opacity:0;
+        transform:translateY(28px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+@keyframes gradientMove{
+    0%{
+        background-position:0% center;
+    }
+
+    100%{
+        background-position:250% center;
+    }
+}
+
+/* =========================
+   TABLET
+========================= */
+
+@media(max-width:800px){
+
+    .projects{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .hero{
+        padding-top:90px;
+    }
+
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:550px){
+
+    .navbar{
+        top:8px;
+        margin-top:8px;
+        padding:0 8px;
+    }
+
+    .nav-content{
+        height:57px;
+        padding:0 15px;
+        border-radius:17px;
+    }
+
+    .nav-links{
+        gap:2px;
+    }
+
+    .nav-links a{
+        padding:8px 9px;
+        font-size:13px;
+    }
+
+    .hero{
+        padding:
+            80px
+            18px
+            75px;
+    }
+
+    h1{
+        font-size:clamp(46px,15vw,68px);
+        letter-spacing:-3px;
+    }
+
+    .hero p{
+        font-size:15px;
+    }
+
+    .hero-buttons{
+        flex-direction:column;
+        align-items:stretch;
+    }
+
+    .button{
+        width:100%;
+    }
+
+    section{
+        padding:
+            25px
+            18px
+            70px;
+    }
+
+    .projects{
+        grid-template-columns:1fr;
+        gap:14px;
+    }
+
+    .project{
+        min-height:225px;
+        padding:21px;
+    }
+
+    .project:hover{
+        transform:translateY(-5px);
+    }
+
+    .about{
+        padding:24px;
+    }
+
+    .cursor-glow{
+        display:none;
+    }
+}
+
+/* =========================
+   REDUCE MOTION
+========================= */
+
+@media(prefers-reduced-motion:reduce){
+
+    *,
+    *::before,
+    *::after{
+        animation-duration:.01ms!important;
+        animation-iteration-count:1!important;
+        scroll-behavior:auto!important;
+        transition-duration:.01ms!important;
+    }
+}
 </style>
 </head>
 
 <body>
+
+<div class="cursor-glow"></div>
+
+<!-- NAVBAR -->
 <nav class="navbar">
-<div class="nav-content">
-<a href="#" class="logo">Raps<span>13</span></a>
-<div class="nav-links"><a href="#projects">Projects</a><a href="#about">About</a></div>
-</div>
+    <div class="nav-content">
+
+        <a href="#" class="logo">
+            Raps<span>13</span>
+        </a>
+
+        <div class="nav-links">
+            <a href="#projects">Projects</a>
+            <a href="#about">About</a>
+        </div>
+
+    </div>
 </nav>
 
+
+<!-- HERO -->
 <header class="hero">
-<span class="badge">PROJECT COLLECTION · RAPS13</span>
-<h1>Kumpulan <span class="gradient">Project</span><br>Raps13.</h1>
-<p>Satu tempat untuk menyimpan, menampilkan, dan mengakses semua project Raps13.</p>
-<div class="hero-buttons">
-<a href="#projects" class="button">Lihat Project</a>
-<a href="#about" class="button dark">Tentang</a>
-</div>
+
+    <span class="badge">
+        PROJECT COLLECTION · RAPS13
+    </span>
+
+    <h1>
+        Kumpulan <span class="gradient">Project</span><br>
+        Raps13.
+    </h1>
+
+    <p>
+        Satu tempat untuk menyimpan, menampilkan,
+        dan mengakses semua project Raps13.
+    </p>
+
+    <div class="hero-buttons">
+
+        <a href="#projects" class="button">
+            Lihat Project
+        </a>
+
+        <a href="#about" class="button dark">
+            Tentang
+        </a>
+
+    </div>
+
 </header>
 
+
+<!-- PROJECTS -->
 <section id="projects">
-<div class="section-header"><h2>Projects</h2><p>Semua project Raps13</p></div>
-<div class="projects">
 
-<a href="projects/project-1/index.html" class="project">
-<div class="project-number">Download VT No WM</div><h3>Project 1</h3><p>Download VT No Watermark</p>
-<div class="tags"><span class="tag">HTML</span><span class="tag">Web</span></div><div class="open">Buka Project →</div>
-</a>
+    <div class="section-header">
+        <h2>Projects</h2>
+        <p>Semua project Raps13</p>
+    </div>
 
-<a href="projects/project-2/index.html" class="project">
-<div class="project-number">Download Video YT</div><h3>Project 2</h3><p>Download Video YT</p>
-<div class="tags"><span class="tag">HTML</span><span class="tag">Web</span></div><div class="open">Buka Project →</div>
-</a>
 
-<a href="projects/project-3/index.html" class="project">
-<div class="project-number">Download Ultra Motion</div><h3>Project 3</h3><p>Download Ultra Motion</p>
-<div class="tags"><span class="tag">HTML</span><span class="tag">Web</span></div><div class="open">Buka Project →</div>
-</a>
+    <div class="projects">
 
-<a href="projects/project-4/index.html" class="project">
-<div class="project-number">PROJECT 04</div><h3>Project 4</h3><p>Project keempat Raps13.</p>
-<div class="tags"><span class="tag">HTML</span><span class="tag">Web</span></div><div class="open">Buka Project →</div>
-</a>
 
-<a href="projects/project-5/index.html" class="project">
-<div class="project-number">PROJECT 05</div><h3>Project 5</h3><p>Project kelima Raps13.</p>
-<div class="tags"><span class="tag">HTML</span><span class="tag">Web</span></div><div class="open">Buka Project →</div>
-</a>
+        <!-- PROJECT 1 -->
+        <a href="projects/project-1/index.html" class="project">
 
-<a href="projects/project-6/index.html" class="project">
-<div class="project-number">PROJECT 06</div><h3>Project 6</h3><p>Project keenam Raps13.</p>
-<div class="tags"><span class="tag">HTML</span><span class="tag">Web</span></div><div class="open">Buka Project →</div>
-</a>
+            <div class="project-number">
+                Download VT No WM
+            </div>
 
-</div>
+            <h3>Project 1</h3>
+
+            <p>
+                Download VT No Watermark
+            </p>
+
+            <div class="tags">
+                <span class="tag">HTML</span>
+                <span class="tag">Web</span>
+            </div>
+
+            <div class="open">
+                Buka Project →
+            </div>
+
+        </a>
+
+
+        <!-- PROJECT 2 -->
+        <a href="projects/project-2/index.html" class="project">
+
+            <div class="project-number">
+                Download Video YT
+            </div>
+
+            <h3>Project 2</h3>
+
+            <p>
+                Download Video YT
+            </p>
+
+            <div class="tags">
+                <span class="tag">HTML</span>
+                <span class="tag">Web</span>
+            </div>
+
+            <div class="open">
+                Buka Project →
+            </div>
+
+        </a>
+
+
+        <!-- PROJECT 3 -->
+        <a href="projects/project-3/index.html" class="project">
+
+            <div class="project-number">
+                Download Ultra Motion
+            </div>
+
+            <h3>Project 3</h3>
+
+            <p>
+                Download Ultra Motion
+            </p>
+
+            <div class="tags">
+                <span class="tag">HTML</span>
+                <span class="tag">Web</span>
+            </div>
+
+            <div class="open">
+                Buka Project →
+            </div>
+
+        </a>
+
+
+        <!-- PROJECT 4 -->
+        <a href="projects/project-4/index.html" class="project">
+
+            <div class="project-number">
+                Project 04
+            </div>
+
+            <h3>Project 4</h3>
+
+            <p>
+                Project keempat Raps13.
+            </p>
+
+            <div class="tags">
+                <span class="tag">HTML</span>
+                <span class="tag">Web</span>
+            </div>
+
+            <div class="open">
+                Buka Project →
+            </div>
+
+        </a>
+
+
+        <!-- PROJECT 5 -->
+        <a href="projects/project-5/index.html" class="project">
+
+            <div class="project-number">
+                Project 05
+            </div>
+
+            <h3>Project 5</h3>
+
+            <p>
+                Project kelima Raps13.
+            </p>
+
+            <div class="tags">
+                <span class="tag">HTML</span>
+                <span class="tag">Web</span>
+            </div>
+
+            <div class="open">
+                Buka Project →
+            </div>
+
+        </a>
+
+
+        <!-- PROJECT 6 -->
+        <a href="projects/project-6/index.html" class="project">
+
+            <div class="project-number">
+                Project 06
+            </div>
+
+            <h3>Project 6</h3>
+
+            <p>
+                Project keenam Raps13.
+            </p>
+
+            <div class="tags">
+                <span class="tag">HTML</span>
+                <span class="tag">Web</span>
+            </div>
+
+            <div class="open">
+                Buka Project →
+            </div>
+
+        </a>
+
+
+    </div>
 </section>
 
+
+<!-- ABOUT -->
 <section id="about">
-<div class="about">
-<h2>About Raps13</h2>
-<p>Website ini merupakan halaman utama untuk mengumpulkan berbagai project yang dibuat oleh Raps13.</p>
-</div>
+
+    <div class="about">
+
+        <h2>
+            About Raps13
+        </h2>
+
+        <p>
+            Website ini merupakan halaman utama untuk
+            mengumpulkan berbagai project yang dibuat
+            oleh Raps13.
+        </p>
+
+    </div>
+
 </section>
 
-<footer>© 2026 Raps13 · Project Collection</footer>
+
+<!-- FOOTER -->
+<footer>
+    © 2026 Raps13 · Project Collection
+</footer>
+
+
+<script>
+/* =========================
+   CURSOR LIQUID GLOW
+========================= */
+
+const glow = document.querySelector(".cursor-glow");
+
+document.addEventListener("mousemove", (e) => {
+    glow.style.left = e.clientX + "px";
+    glow.style.top = e.clientY + "px";
+});
+
+
+/* =========================
+   CARD STAGGER
+========================= */
+
+const cards = document.querySelectorAll(".project");
+
+cards.forEach((card,index)=>{
+    card.style.animationDelay = `${index * 0.08}s`;
+});
+
+
+/* =========================
+   SCROLL REVEAL
+========================= */
+
+const revealItems = document.querySelectorAll(
+    ".section-header, .about"
+);
+
+const observer = new IntersectionObserver(
+    (entries)=>{
+        entries.forEach(entry=>{
+            if(entry.isIntersecting){
+                entry.target.style.animation =
+                    "fadeUp .7s ease both";
+
+                observer.unobserve(entry.target);
+            }
+        });
+    },
+    {
+        threshold:.15
+    }
+);
+
+revealItems.forEach(item=>{
+    observer.observe(item);
+});
+</script>
+
 </body>
 </html>
